@@ -94,7 +94,6 @@ sub clear_db {
     my $type = $dbh->get_info( 17 );
     $type = lc( $type );
     my $sub = "_clear_db_$type";
-    return unless $self->can( $sub );
     {
         local $SIG{'__WARN__'} = sub { 1 };
         return $self->$sub( $dbh );

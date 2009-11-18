@@ -1,4 +1,4 @@
-package App::MultiUser::Rights::Permission;
+package App::MultiUser::Permission;
 use strict;
 use warnings;
 

@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 9;
+use Test::More tests => 11;
 use App::MultiUser::Test;
 
 my $CLASS = 'App::MultiUser::DB::Handle';
@@ -23,3 +23,5 @@ $dbh = ['b'];
 is( $one->add( $dbh ), 2, "Second id is 2 - OBJ" );
 is( $one->id_for( $dbh ), 2, "Found correct ID - OBJ" );
 is( $one->get( 2 ), $dbh, "Retrieved by ID - OBJ" );
+ok( !$one->id_for(), "No id for empty data" );
+ok( !$one->id_for( 1 ), "No id for invalid" );

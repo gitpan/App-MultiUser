@@ -13,7 +13,7 @@ my $build = Module::Build->new(
         'Data::Dumper' => 0,
         'Fey' => 0,
         'Fey::DBIManager' => 0,
-        'Fey::Loader' => 0,
+        'Fey::Loader' => 0.11,
         'Fey::ORM' => 0,
         'Module::Pluggable' => 0,
         'Moose' => 0,
@@ -22,7 +22,7 @@ my $build = Module::Build->new(
     },
     build_requires => {
         'DBD::SQLite' => 1.00,
-        'Test::Database' => 0,
+        'Test::Database' => 1.07,
         'Test::Exception' => 0,
         'Test::More' => 0,
     },

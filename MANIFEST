@@ -33,6 +33,7 @@ t/020-SQLite.t
 t/030-Base.t
 t/040-Cache.t
 t/100-DB-EntityTable.t
+t/105-Entity.t
 t/110-Role-Membership.t
 t/120-Entity-Role.t
 t/125-Permission.t

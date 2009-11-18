@@ -3,10 +3,47 @@ use strict;
 use warnings;
 use Fey::DBIManager::Source;
 use App::MultiUser;
+use App::MultiUser::Entity;
+use App::MultiUser::Entity::Property;
 use Moose::Role;
 use Carp;
 
 requires 'entity_id';
+requires 'insert';
+requires 'id_field';
+
+
+sub id {
+    my $self = shift;
+    my $field = $self->id_field;
+    return $self->$field;
+}
+
+around 'insert' => sub {
+    my $orig = shift;
+    my $self = shift;
+    my %params = @_;
+    my $entity;
+
+    if ( my $eid = $params{ 'entity_id' }) {
+        $entity = App::MultiUser::Entity->new( entity_id => $eid );
+    }
+    else {
+        my $entitytable = App::MultiUser::DB::EntityTable->new(
+            table_name => $self->Table->name
+        );
+        $entity = App::MultiUser::Entity->insert(
+            entity_table_id => $entitytable->entity_table_id
+        );
+        $params{ 'entity_id' } = $entity->entity_id;
+    }
+
+    my $new = $self->$orig( %params );
+
+    $entity->update( object_id => $new->id );
+
+    return $new;
+};
 
 sub _select {
     my $table = schema()->table( 'property' );
@@ -26,12 +63,12 @@ sub _dbh {
 
 sub properties {
     my $self = shift;
-    return Fey::Object::Iterator::FromSelect->new(
-        classes => App::MultiUser::property_class(),
+    return [ Fey::Object::Iterator::FromSelect->new(
+        classes => 'App::MultiUser::Entity::Property',
         select => _select(),
         bind_params => [ $self->entity_id ],
         dbh => _dbh()
-    )->all;
+    )->all ];
 }
 
 sub property_obj {
@@ -45,7 +82,7 @@ sub property_obj {
     );
 
     return Fey::Object::Iterator::FromSelect->new(
-        classes => App::MultiUser::property_class(),
+        classes => [ 'App::MultiUser::Entity::Property' ],
         select => $select,
         bind_params => [ $self->entity_id, $name ],
         dbh => _dbh()
@@ -54,7 +91,6 @@ sub property_obj {
 
 sub property {
     my $self = shift;
-    confess "No self." unless $self;
     my $name = shift;
     my $property = $self->property_obj( $name );
 
@@ -63,8 +99,8 @@ sub property {
     if ( $property and @_ ) {
         $property->update( value => '' . shift( @_ ));
     }
-    elsif( @_ and not $property ) {
-        $property = App::MultiUser::property_class()->insert(
+    elsif( @_ ) {
+        $property = App::MultiUser::Entity::Property->insert(
             entity_id => $self->entity_id,
             name      => $name,
             value     => '' . shift( @_ ),
@@ -75,32 +111,3 @@ sub property {
 }
 
 1;
-
-__END__
-
---Every object that can have additional proprties gets an entity_id
-CREATE SEQUENCE entity_seq START 1 NO CYCLE;
-
---Properties on entity objects
-CREATE TABLE property (
-    property_id SERIAL  NOT NULL PRIMARY KEY,
-    entity_id   INTEGER NOT NULL,
-    name        TEXT    NOT NULL,
-    value       TEXT    DEFAULT NULL,
-    UNIQUE( entity_id, name ),
-    --Not sufficient, but no better way
-    CHECK( entity_id <= currval('entity_seq'))
-);
-
-CREATE TABLE config (
-    config_id SERIAL  NOT NULL PRIMARY KEY,
-    entity_id INTEGER NOT NULL DEFAULT nextval('entity_seq'),
-    name      TEXT    NOT NULL UNIQUE
-);
-
-INSERT INTO config( name ) VALUES( 'system' );
-INSERT INTO property( entity_id, name, value ) VALUES(
-    (SELECT entity_id FROM config WHERE name = 'system'),
-    'Version',
-    '0'
-);

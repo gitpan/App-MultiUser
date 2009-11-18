@@ -5,7 +5,7 @@ use Moose;
 use MooseX::ClassAttribute;
 use Carp;
 
-our $VERSION = '0.0001';
+our $VERSION = '0.0002';
 our @EXPORT = qw/schema/;
 
 #{{{ POD
@@ -142,7 +142,7 @@ alternate App::MultiUser object can be passed in.
 
 sub schema {
     my $self = shift( @_ );
-    $self ||= __PACKAGE__->primary;
+    $self = __PACKAGE__->primary unless $self;
     return $self->db_schema->Schema();
 }
 

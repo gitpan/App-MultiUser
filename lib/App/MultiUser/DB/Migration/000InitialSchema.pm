@@ -21,7 +21,7 @@ add_step pg => <<EOT;
 CREATE TABLE entity(
   entity_id       SERIAL  NOT NULL PRIMARY KEY,
   entity_table_id INTEGER NOT NULL REFERENCES entity_table( entity_table_id ),
-  object_id       INTEGER NOT NULL,
+  object_id       INTEGER,
   UNIQUE( entity_table_id, object_id )
 )
 EOT
@@ -129,7 +129,7 @@ add_step sqlite => <<EOT;
 CREATE TABLE entity(
 entity_id       INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 entity_table_id INTEGER NOT NULL REFERENCES entity_table( entity_table_id ),
-object_id       INTEGER NOT NULL,
+object_id       INTEGER,
 UNIQUE( entity_table_id, object_id )
 )
 EOT
@@ -237,7 +237,7 @@ add_step mysql => <<EOT;
 CREATE TABLE entity(
 entity_id       INTEGER AUTO_INCREMENT  NOT NULL PRIMARY KEY,
 entity_table_id INTEGER NOT NULL, FOREIGN KEY ( entity_table_id ) REFERENCES entity_table( entity_table_id ),
-object_id       INTEGER NOT NULL,
+object_id       INTEGER,
 UNIQUE( entity_table_id, object_id )
 ) ENGINE=InnoDB
 EOT

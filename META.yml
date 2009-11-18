@@ -1,6 +1,6 @@
 ---
 name: App-MultiUser
-version: 0.0001
+version: 0.0002
 author:
   - 'Chad Granum <exodist7@gmail.com>'
 abstract: Base framework for an application with users and roles.
@@ -9,7 +9,7 @@ resources:
   license: http://dev.perl.org/licenses/
 build_requires:
   DBD::SQLite: 1
-  Test::Database: 0
+  Test::Database: 1.07
   Test::Exception: 0
   Test::More: 0
 requires:
@@ -17,7 +17,7 @@ requires:
   Data::Dumper: 0
   Fey: 0
   Fey::DBIManager: 0
-  Fey::Loader: 0
+  Fey::Loader: 0.11
   Fey::ORM: 0
   Module::Pluggable: 0
   Moose: 0
@@ -28,7 +28,7 @@ configure_requires:
 provides:
   App::MultiUser:
     file: lib/App/MultiUser.pm
-    version: 0.0001
+    version: 0.0002
   App::MultiUser::Account:
     file: lib/App/MultiUser/Account.pm
   App::MultiUser::Base:
@@ -51,14 +51,14 @@ provides:
     file: lib/App/MultiUser/Entity.pm
   App::MultiUser::Entity::Role:
     file: lib/App/MultiUser/Entity/Role.pm
+  App::MultiUser::Permission:
+    file: lib/App/MultiUser/Permission.pm
+  App::MultiUser::Privilege:
+    file: lib/App/MultiUser/Privilege.pm
+  App::MultiUser::Privilege::Chain:
+    file: lib/App/MultiUser/Privilege/Chain.pm
   App::MultiUser::Property:
     file: lib/App/MultiUser/Property.pm
-  App::MultiUser::Rights::Permission:
-    file: lib/App/MultiUser/Permission.pm
-  App::MultiUser::Rights::Privilege:
-    file: lib/App/MultiUser/Privilege.pm
-  App::MultiUser::Rights::Privilege::Chain:
-    file: lib/App/MultiUser/Privilege/Chain.pm
   App::MultiUser::Role:
     file: lib/App/MultiUser/Role.pm
   App::MultiUser::Role::Membership:

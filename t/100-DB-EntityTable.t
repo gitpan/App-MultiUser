@@ -25,6 +25,12 @@ is_deeply(
     "Got all"
 );
 
+is_deeply(
+    $CLASS->all_entities,
+    [ map { $_->table_name } @{ $CLASS->get_all }],
+    "All entities"
+);
+
 for my $table ( map { $_->table_name } @{ $CLASS->get_all }) {
     my @fks = App::MultiUser->primary->schema->foreign_keys_between_tables($table, 'entity');
     App::MultiUser->primary->schema->remove_foreign_key( $_ ) for @fks;
@@ -45,6 +51,8 @@ for my $table ( map { $_->table_name } @{ $CLASS->get_all }) {
     );
 }
 
+ok( my $one = $CLASS->new( table_name => 'role' ), "Get by table name");
+is( $one->table_name, 'role', 'Got by table_name' );
 
 
 __END__

@@ -45,8 +45,11 @@ is_deeply(
 );
 
 ok( cache( 'a', { a => 'a' }), "Cache a" );
+is_deeply( cache( 'a' ), { a => 'a' }, "Cache a is correct");
 ok( cache( 'b', { b => 'b' }), "Cache b" );
+is_deeply( cache( 'b' ), { b => 'b' }, "Cache a is correct");
 ok( cache( 'c', { c => 'c' }), "Cache c" );
+is_deeply( cache( 'c' ), { c => 'c' }, "Cache a is correct");
 
 {
     package xxx;

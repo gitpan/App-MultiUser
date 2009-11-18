@@ -1,4 +1,4 @@
-package App::MultiUser::Rights::Privilege::Chain;
+package App::MultiUser::Privilege::Chain;
 use strict;
 use warnings;
 

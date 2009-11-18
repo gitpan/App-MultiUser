@@ -4,19 +4,22 @@ use warnings;
 
 use Fey::ORM::Table;
 use App::MultiUser;
+use Moose;
 
 has_table( schema()->table('entity'));
 
-our @CHILDREN = qw/account role privilege/;
+has_one( schema()->table( 'entity_table' ));
 
-has_one( schema()->table( $_ )) for @CHILDREN;
-
-sub object {
-    my $self = shift;
-    for my $type ( @CHILDREN ) {
-        my $child = $self->$type;
-        return $child if $child;
+has object => (
+    is => 'ro',
+    lazy => 1,
+    default => sub {
+        my $self = shift;
+        my $table_name = $self->entity_table->table_name;
+        my $table = schema()->table($table_name);
+        my $class = Fey::Meta::Class::Table->ClassForTable( $table );
+        return $class->new( $class->id_field => $self->object_id );
     }
-}
+);
 
 1;

@@ -13,7 +13,7 @@ my $hcount = Test::Database->handles(
     { dbd => 'mysql' },
     { dbd => 'Pg' },
 );
-plan tests => 7 + $hcount * 8;
+plan tests => 7 + $hcount * 10;
 
 my $CLASS = 'App::MultiUser::Test';
 
@@ -56,6 +56,8 @@ for my $source ( values %{ $CLASS->handles }) {
     my $two = $CLASS->new( source_id => $source->dbd );
     $two->clear_db;
     my $schema = Fey::Loader->new( dbh => $source->dbh() )->make_schema();
+    ok( !($schema->tables), "No tables yet" );
+    ok( $two->dbinit( 1 ), "initdb" );
     ok( !($schema->tables), "No tables yet" );
     ok( $two->dbinit, "initdb" );
     $schema = Fey::Loader->new( dbh => $source->dbh() )->make_schema();

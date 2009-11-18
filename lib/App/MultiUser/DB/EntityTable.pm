@@ -38,4 +38,8 @@ sub get_all {
     return [ __PACKAGE__->iterator->all ];
 }
 
+sub all_entities {
+    return [ map { $_->table_name } @{ __PACKAGE__->get_all }];
+}
+
 1;

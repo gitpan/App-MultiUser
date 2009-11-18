@@ -12,6 +12,7 @@ my $CLASS = 'App::MultiUser::Account';
 use_ok( $CLASS );
 
 
+
 __END__
 
 package App::MultiUser::Account;
