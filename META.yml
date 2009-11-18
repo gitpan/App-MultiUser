@@ -49,6 +49,8 @@ provides:
     file: lib/App/MultiUser/DB/Schema.pm
   App::MultiUser::Entity:
     file: lib/App/MultiUser/Entity.pm
+  App::MultiUser::Entity::Property:
+    file: lib/App/MultiUser/Entity/Property.pm
   App::MultiUser::Entity::Role:
     file: lib/App/MultiUser/Entity/Role.pm
   App::MultiUser::Permission:

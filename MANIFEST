@@ -10,6 +10,7 @@ lib/App/MultiUser/DB/Migration.pm
 lib/App/MultiUser/DB/Migration/000InitialSchema.pm
 lib/App/MultiUser/DB/Schema.pm
 lib/App/MultiUser/Entity.pm
+lib/App/MultiUser/Entity/Property.pm
 lib/App/MultiUser/Entity/Role.pm
 lib/App/MultiUser/Permission.pm
 lib/App/MultiUser/Privilege.pm
@@ -44,6 +45,8 @@ t/145-Privilege-Chain.t
 t/155-Property.t
 t/160-Version.t
 t/165-Account.t
+t/170-Property.t
 t/lib/AppMultiUserTests/DBTests/000MultiUser.pm
 t/lib/AppMultiUserTests/DBTests/001DB.pm
 t/lib/AppMultiUserTests/DBTests/002Test.pm
+t/lib/AppMultiUserTests/DBTests/003Entities.pm
